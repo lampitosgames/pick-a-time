@@ -1,0 +1,20 @@
+{
+  "name": "pick-a-time",
+  "version": "1.0.0",
+  "description": "Web app that helps groups select a time to meet",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"No test written\" && exit 0"
+  },
+  "author": "Daniel Timko",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.14.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "nodemon": "^1.18.10"
+  }
+}
