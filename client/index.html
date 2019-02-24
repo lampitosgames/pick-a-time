@@ -1,32 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Our simple HTTP server</title>
+    <title>Pick A Time</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/client/style.css">
+    <link rel="icon" type="image/x-icon" href="/client/favicon.ico">
+    <script src="/client/libraries/jquery-3.3.1.js"></script>
+    <script src="/client/js/loader.js"></script>
+    <script src="/client/js/keybinds.js"></script>
+    <script src="/client/js/home.js"></script>
   </head>
   <body>
-    <section id="top">
-      <h3>POST Status Code Tests</h3>
-      <form id="nameForm" action="/addUser" method="post">
-        <label for="name">Name: </label>
-        <input id="nameField" type="text" name="name" />
-        <label for="age">Age: </label>
-        <input id="ageField" type="number" name="age" min="0" max="100" step="1" />
-        <input type="submit" value="Add User" />
-      </form>
-      <form id="userForm" action="/getUsers" method="get">
-        <select id='urlField'>
-          <option value='/getUsers'>/getUsers</option>
-          <option value='/notReal'>/notReal</option>
-        </select>
-        <select id="methodSelect">
-          <option value="get">GET</option>
-          <option value="head">HEAD</option>
-        </select>
-        <input type="submit" value="Get User" />
-      </form>
-    </section>
-    <section id="content">
-    </section>
+    <div id="content">
+      <h1 id="title" class="header">pick a time</h1>
+      <input id="event-title" class="text-input-full" autofocus placeholder="event name" type="text" />
+      <input id="event-description" class="text-input-full input-hidden" placeholder="event desc" type="text" />
+      <input id="event-start-date" class="text-input-full input-hidden" placeholder="start date" type="text" />
+      <input id="event-end-date" class="text-input-full input-hidden" placeholder="end date" type="text" />
+      <div id="event-create" class="button input-hidden">
+        create
+      </div>
+    </div>
   </body>
 </html>

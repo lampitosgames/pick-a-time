@@ -1,21 +1,125 @@
-html, body {
-  height: 100%;
-  width: 100%;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600,700|Roboto:500');
+
+/* Accents
+ * Red - #F55536
+ * Yellow - #D1900E
+ * Green - #83B83B
+ * Blue - #2E6171
+ * Purple - #1F2041
+ * 
+ * Greyscale
+ * Strong-light - #FEFEFE
+ * Light - #FAFAFA
+ * Off-light - #F1F1F1
+ * Strong-dark - #121D1C
+ * Dark - #203533
+ * Off-dark - #485958
+ */
+* {
   margin: 0;
   padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
 }
 
-#top {
+html, body {
+  background-color: #F1F1F1;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+.header {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #121D1C;
+}
+
+#title {
+  font-size: 3em;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.text-input-full {
+  font-size: 2.5em;
   text-align: center;
-  margin: 0 auto;
+  max-width: 100%;
+  opacity: 1;
+  display: block;
+  margin-bottom: 2.5rem;
+  color: #485958;
+  visibility: visible;
+  transition: opacity 150ms ease-in-out, visibility 150ms, border 400ms;
 }
 
-#top h1 {
-  font-size: 2em;
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.75em;
+  opacity: 1;
+  visibility: visible;
+  width: 8em;
+  max-width: 100%;
+  background-color: #F55536;
+  cursor: pointer;
+  color: #FAFAFA;
+  font-family: "Roboto", sans-serif;
+  border-radius: 0.125em;
+  font-size: 1.5em;
+  transition: opacity 150ms ease-in-out, visibility 150ms, background-color 250ms, ;
 }
 
+.button:hover {
+  background-color: #DF4E32;
+}
+
+.input-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#event-title.input-hascontent {
+  border-bottom: 3px solid #F55536;
+}
+
+#event-description.input-hascontent {
+  border-bottom: 3px solid #2E6171;
+}
+
+#event-start-date.input-hascontent {
+  border-bottom: 3px solid #D1900E;
+}
+
+#event-end-date.input-hascontent {
+  border-bottom: 3px solid #83B83B;
+}
+
+/* Default style should be mobile size */
 #content {
-  margin-top: 100px;
-  font-size: 2em;
+  width: 100%;
+  height: 100%;
+  max-width: 786px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media all and (min-width: 768px) {
+  body {
+    font-size: 1.5em;
+  }
+
+  #title {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
 }
