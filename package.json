@@ -16,5 +16,9 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",
     "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "qs": "^6.6.0",
+    "uuid": "^3.3.2"
   }
 }

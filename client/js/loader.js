@@ -6,5 +6,4 @@ $(document).ready(() => {
   //Initialize all modules
   app.keys.init();
   app.pagescript.init();
-  // app.ajax.init();  
 });

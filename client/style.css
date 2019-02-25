@@ -83,19 +83,7 @@ html, body {
   opacity: 0;
 }
 
-#event-title.input-hascontent {
-  border-bottom: 3px solid #F55536;
-}
-
-#event-description.input-hascontent {
-  border-bottom: 3px solid #2E6171;
-}
-
-#event-start-date.input-hascontent {
-  border-bottom: 3px solid #D1900E;
-}
-
-#event-end-date.input-hascontent {
+.input-hascontent {
   border-bottom: 3px solid #83B83B;
 }
 

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const { addEvent, getEvent } = require('./events');
 
 const sendError = (req, res, errorNumber, id, message) => {
   res.writeHead(errorNumber, { 'Content-Type': 'text/json' });
@@ -27,7 +28,7 @@ const sendStaticFile = (req, res, parsedURL) => {
 const onRequest = (req, res) => {
   const { method } = req;
   const parsedURL = url.parse(req.url);
-  const body = [];
+  let body = [];
 
   req.on('data', chunk => body.push(chunk)).on('end', () => {
     // GET or HEAD request
@@ -35,6 +36,8 @@ const onRequest = (req, res) => {
       // Index
       if (parsedURL.pathname === '/') {
         getIndex(req, res);
+      } else if (parsedURL.pathname === '/event') {
+        getEvent(req, res);
         // If the path is fetching files from the client folder, serve static files
       } else if (/(\/client\/).+/.test(parsedURL.pathname)) {
         sendStaticFile(req, res, parsedURL);
@@ -44,8 +47,16 @@ const onRequest = (req, res) => {
       // Post request
     } else if (method === 'POST') {
       // Parse body of request
-      // IMPORT PARSE FROM QUERYSTRING: body = parse(Buffer.concat(body).toString());
-      sendError(req, res, 500, 'serverError', 'POST not implemented yet');
+      body = JSON.parse(Buffer.concat(body).toString());
+      if (parsedURL.pathname === '/newEvent') {
+        if (body.titleValue === '' || body.descValue === '' || body.startDate === '' || body.endDate === '') {
+          sendError(req, res, 400, 'missingParams', 'Title, description, start, end are all required to create an event.');
+          return;
+        }
+        addEvent(req, res, body);
+      } else {
+        sendError(req, res, 500, 'serverError', 'POST not implemented yet');
+      }
     }
   });
 };

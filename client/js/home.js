@@ -1,20 +1,38 @@
 app.pagescript = (() => {
-  let a = app;
-
+  //Init individual page elements
   let $eTitle, $eDescription, $eStartDate, $eEndDate, $eSubmit;
 
+  //Store the user-entered values to send during a POST request
   let titleValue = "";
   let descValue = "";
   let startDate = "";
   let endDate = "";
 
+  /**
+   * Called on the homepage when the app starts
+   */
   const init = () => {
+    //Get all relevant elements on the page
     $eTitle = $("#event-title");
     $eDescription = $("#event-description");
     $eStartDate = $("#event-start-date");
     $eEndDate = $("#event-end-date");
     $eSubmit = $("#event-create");
 
+    //When the "submit" button is clicked, send a post request
+    $eSubmit.click((e) => {
+      //TODO: validate input
+      if (titleValue !== "" && descValue !== "" && startDate !== "" && endDate !== "") {
+        app.ajax.post("/newEvent", { "name": titleValue, "desc": descValue, "startDate": startDate, "endDate": endDate })
+          .then((res) => {
+            console.dir(res);
+            window.location.replace(`/event?id=${res.id}`);
+          })
+          .catch((err) => { console.dir(err); });
+      }
+    });
+
+    //Bind the "enter" key to progress app state
     app.keys.keyUpBound($eTitle[0], "enter", () => {
       $eDescription.focus();
     });
@@ -28,6 +46,7 @@ app.pagescript = (() => {
       $eSubmit.trigger("click");
     });
 
+    //The rest of this function is just styling-related jquery stuff
     $(".text-input-full").on("input", (e) => {
       if ($(e.target).val() === "") {
         $(e.target).attr("size", 14);
@@ -75,7 +94,7 @@ app.pagescript = (() => {
       } else {
         $eSubmit.removeClass("input-hidden");
       }
-    })
+    });
   }
 
   return {
