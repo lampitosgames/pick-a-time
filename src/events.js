@@ -27,7 +27,7 @@ const getEvent = (req, res) => {
   if (Object.prototype.hasOwnProperty.call(queryVals, 'id') && events[queryVals.id]) {
     res.write(JSON.stringify(events[queryVals.id]));
   } else {
-    res.write(JSON.stringify({ message: 'invalid params' }));
+    res.write(JSON.stringify({ message: 'no event with specified ID' }));
   }
   res.end();
 };

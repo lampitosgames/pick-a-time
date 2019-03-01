@@ -16,6 +16,13 @@ const getIndex = (req, res) => {
   res.end();
 };
 
+const eventHTML = fs.readFileSync(`${__dirname}/../client/eventPage.html`);
+const getEventPage = (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write(eventHTML);
+  res.end();
+}
+
 const sendStaticFile = (req, res, parsedURL) => {
   // Host static files from the client directory
   const stream = fs.createReadStream(path.join(__dirname, '../', parsedURL.pathname));
@@ -37,6 +44,8 @@ const onRequest = (req, res) => {
       if (parsedURL.pathname === '/') {
         getIndex(req, res);
       } else if (parsedURL.pathname === '/event') {
+        getEventPage(req, res);
+      } else if (parsedURL.pathname === '/getEvent') {
         getEvent(req, res);
         // If the path is fetching files from the client folder, serve static files
       } else if (/(\/client\/).+/.test(parsedURL.pathname)) {

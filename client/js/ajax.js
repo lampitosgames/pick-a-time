@@ -7,7 +7,7 @@ app.ajax = (() => {
    */
   const get = (url, data) => {
     return new Promise((resolve, reject) => {
-      let fullURL = url + "?" + Object.keys(data).map(key => { key + '=' + data[key] }).join('&');
+      let fullURL = url + "?" + Object.keys(data).map((key) => { return key + '=' + data[key]; }).join('&');
       let xhr = new XMLHttpRequest();
       xhr.open("get", fullURL);
       xhr.addEventListener("load", () => {
