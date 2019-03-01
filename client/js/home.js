@@ -1,6 +1,6 @@
 app.pagescript = (() => {
   //Init individual page elements
-  let $eTitle, $eDescription, $eStartDate, $eEndDate, $eSubmit;
+  let $eTitle, $eDescription, $eStartLabel, $eStartDate, $eEndLabel, $eEndDate, $eSubmit;
 
   //Store the user-entered values to send during a POST request
   let titleValue = "";
@@ -15,7 +15,9 @@ app.pagescript = (() => {
     //Get all relevant elements on the page
     $eTitle = $("#event-title");
     $eDescription = $("#event-description");
+    $eStartLabel = $("#event-start-label");
     $eStartDate = $("#event-start-date");
+    $eEndLabel = $("#event-end-label");
     $eEndDate = $("#event-end-date");
     $eSubmit = $("#event-create");
 
@@ -70,9 +72,11 @@ app.pagescript = (() => {
     $eDescription.on("input", () => {
       descValue = $eDescription.val();
       if (descValue === "") {
+        $eStartLabel.addClass("input-hidden");
         $eStartDate.addClass("input-hidden");
         $eStartDate.val("");
       } else {
+        $eStartLabel.removeClass("input-hidden");
         $eStartDate.removeClass("input-hidden");
         $eStartDate.removeClass("input-hascontent");
       }
@@ -80,9 +84,11 @@ app.pagescript = (() => {
     $eStartDate.on("input", () => {
       startDate = $eStartDate.val();
       if (startDate === "") {
+        $eEndLabel.addClass("input-hidden");
         $eEndDate.addClass("input-hidden");
         $eEndDate.val("");
       } else {
+        $eEndLabel.removeClass("input-hidden");
         $eEndDate.removeClass("input-hidden");
         $eEndDate.removeClass("input-hascontent");
       }

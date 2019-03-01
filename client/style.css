@@ -43,6 +43,11 @@ html, body {
   padding-bottom: 2rem;
 }
 
+label {
+  color: #485958;
+  font-family: "Roboto", sans-serif;
+}
+
 .text-input-full {
   font-size: 2.5em;
   text-align: center;
@@ -85,6 +90,11 @@ html, body {
 
 .input-hascontent {
   border-bottom: 3px solid #83B83B;
+}
+
+.date-input::-webkit-inner-spin-button, .date-input::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
 }
 
 /* Default style should be mobile size */
