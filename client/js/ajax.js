@@ -42,7 +42,7 @@ app.ajax = (() => {
         if (xhr.responseText) {
           response = JSON.parse(xhr.responseText);
         }
-        if (xhr.status === 201) {
+        if (xhr.status === 201 || xhr.status === 204) {
           resolve(response);
         } else {
           reject(xhr);

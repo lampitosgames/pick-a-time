@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const { addEvent, getEvent } = require('./events');
+const {
+  addEvent, getEvent, addPerson, deletePerson,
+} = require('./events');
 
 const sendError = (req, res, errorNumber, id, message) => {
   res.writeHead(errorNumber, { 'Content-Type': 'text/json' });
@@ -21,7 +23,7 @@ const getEventPage = (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write(eventHTML);
   res.end();
-}
+};
 
 const sendStaticFile = (req, res, parsedURL) => {
   // Host static files from the client directory
@@ -63,6 +65,18 @@ const onRequest = (req, res) => {
           return;
         }
         addEvent(req, res, body);
+      } else if (parsedURL.pathname === '/addPerson') {
+        if (body.eventID === '' || body.person === '') {
+          sendError(req, res, 400, 'missingParams', 'Event ID and persons name are both required to add a person');
+          return;
+        }
+        addPerson(req, res, body);
+      } else if (parsedURL.pathname === '/deletePerson') {
+        if (body.eventID === '' || body.person === '') {
+          sendError(req, res, 400, 'missingParams', 'Event ID and persons name are both required to delete a person');
+          return;
+        }
+        deletePerson(req, res, body);
       } else {
         sendError(req, res, 500, 'serverError', 'POST not implemented yet');
       }

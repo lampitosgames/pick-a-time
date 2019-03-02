@@ -31,16 +31,48 @@ html, body {
   height: 100%;
 }
 
-.header {
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.h1 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   color: #121D1C;
+  font-size: 3em;
+}
+
+.h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #203533;
+  font-size: 1.6em;
+}
+
+.h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #485958;
+  font-size: 1em;
 }
 
 #title {
-  font-size: 3em;
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+#event-page-title {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+#event-page-description {
+  padding-bottom: 1rem;
 }
 
 label {
@@ -99,21 +131,152 @@ label {
 
 /* Default style should be mobile size */
 #content {
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
   max-width: 786px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   text-align: center;
+  padding: 1rem;
   margin-left: auto;
   margin-right: auto;
 }
 
+.material-icons.md-small {
+  font-size: 1em;
+}
+
+.material-icons.md-large {
+  font-size: 1.6em;
+}
+
+#people-header {
+  text-align: left;
+  width: 100%;
+  margin-bottom: 0.1em;
+}
+
+#people-header-helper {
+  text-align: left;
+  width: 100%;
+  color: #485958;
+  margin-bottom: 0.5em;
+  font-family: 'Roboto', sans-serif;
+}
+
+.people-list-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.2em;
+  width: 100%;
+  overflow: hidden;
+}
+
+.person-name {
+  background-color: #2E6171;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: #FEFEFE;
+  padding: 0.3em 0.35em 0.3em 0.7em;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.delete-person {
+  padding-left: 0.3em;
+}
+
+.delete-person:hover {
+  color: #F1F1F1;
+}
+
+#new-person-input {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: #FEFEFE;
+  position: relative;
+  display: inline-block;
+  visibility: visible;
+  top: -0.4em;
+  padding: 0.15em 0em 0em 0.7em;
+  transition: opacity 150ms ease-in-out, visibility 150ms;
+}
+
+.new-person-input-hidden {
+  display: none !important;
+}
+
+#add-person {
+  color: #485958;
+  display: inline;
+  position: relative;
+  cursor: pointer;
+  height: 1.6em;
+  border-radius: 1em;
+  background-color: none;
+  margin-bottom: 0.5em;
+  transition: width 250ms ease-in-out;
+}
+
+#add-person:hover {
+  color: #121D1C;
+}
+
+.adding-person {
+  background-color: #121D1C;
+  padding-right: 0.35em;
+}
+
+#submit-person-icon {
+  display: none;
+  color: #FEFEFE;
+}
+
+#submit-person-icon:hover {
+  color: #D0D0D0;
+}
+
+
+/* Decrease font size for IPhone 5/SE and other small screens */
+@media all and (max-width: 320px) {
+  body {
+    font-size: 0.85em;
+  }
+
+  #title {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  #event-page-title {
+    padding-top: 1rem;
+  }
+}
+
+/* Increase font size and padding for desktop resolutions */
 @media all and (min-width: 768px) {
   body {
     font-size: 1.5em;
+  }
+
+  #event-page-description {
+    margin-bottom: 3em;
+  }
+
+  .people-list-wrapper {
+    font-size: 1em;
   }
 
   #title {

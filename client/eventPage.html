@@ -5,6 +5,7 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/client/style.css">
     <link rel="icon" type="image/x-icon" href="/client/favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/client/libraries/jquery-3.3.1.js"></script>
     <script src="/client/js/loader.js"></script>
     <script src="/client/js/keybinds.js"></script>
@@ -13,7 +14,19 @@
   </head>
   <body>
     <div id="content">
-      <h1 id="title" class="header">loading...</h1>
+      <h1 id="event-page-title" class="h1">loading...</h1>
+      <h3 id="event-page-description" class="h3"></h3>
+      <h3 id="people-header" class="h2">people</h3>
+      <div id="people-header-helper">
+        add/remove attendee schedules
+      </div>
+      <div class="people-list-wrapper noselect">
+        <div id="add-person" class="noselect" tabindex=0>
+          <i id="add-icon" class="material-icons md-large">add_circle</i>
+          <input id="new-person-input" class="new-person-input-hidden" type="text" />
+          <i id="submit-person-icon" class="material-icons md-large">forward</i>
+        </div>
+      </div>
     </div>
   </body>
 </html>
