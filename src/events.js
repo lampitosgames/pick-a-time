@@ -1,8 +1,8 @@
 const qs = require('qs');
 const uuidv1 = require('uuid/v1');
 
-// Define a set of user colors. Clone into every event. 
-//If we run out, they'll be randomly generated
+// Define a set of user colors. Clone into every event.
+// If we run out, they'll be randomly generated
 const userColors = [
   '#811b87',
   '#c6a772',
@@ -23,10 +23,10 @@ const events = {
     eventID: 'debug',
     name: 'Debug Event',
     desc: 'Debug description. This is just the test data',
-    startDate: '2019-03-04',
-    endDate: '2019-03-14',
+    startDate: '2019-12-28',
+    endDate: '2020-02-03',
     people: {},
-    unusedColors: userColors.map((c) => c)
+    unusedColors: userColors.map(c => c),
   },
 };
 
@@ -39,7 +39,7 @@ const addEvent = (req, res, body) => {
     startDate: body.startDate,
     endDate: body.endDate,
     people: {},
-    unusedColors: userColors.map((c) => c)
+    unusedColors: userColors.map(c => c),
   };
   res.writeHead(201, { 'Content-Type': 'text/json' });
   res.write(JSON.stringify({

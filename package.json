@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/server.js",
     "dev": "nodemon --ext js,html,css,json --watch client --watch src ./src/server.js",
-    "pretest": "eslint ./src ./client",
+    "pretest": "eslint ./src --fix",
     "test": "echo \"No test written\" && exit 0"
   },
   "author": "Daniel Timko",

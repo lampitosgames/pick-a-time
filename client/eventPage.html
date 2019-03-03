@@ -3,14 +3,16 @@
   <head>
     <title>Pick A Time</title>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" type="text/css" href="/client/style.css">
-    <link rel="icon" type="image/x-icon" href="/client/favicon.ico">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/client/style.css">
+    <link rel="stylesheet" type="text/css" href="/client/table-style.css">
+    <link rel="icon" type="image/x-icon" href="/client/favicon.ico">
     <script src="/client/libraries/jquery-3.3.1.js"></script>
     <script src="/client/js/loader.js"></script>
     <script src="/client/js/keybinds.js"></script>
     <script src="/client/js/ajax.js"></script>
-    <script src="/client/js/eventPage.js"></script>
+    <script src="/client/js/event-page.js"></script>
+    <script src="/client/js/date-table-builder.js"></script>
   </head>
   <body>
     <div id="content">
@@ -26,6 +28,9 @@
           <input id="new-person-input" class="new-person-input-hidden" type="text" />
           <i id="submit-person-icon" class="material-icons md-large">forward</i>
         </div>
+      </div>
+      <div id="time-table-wrapper">
+
       </div>
     </div>
   </body>

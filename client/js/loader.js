@@ -1,9 +1,9 @@
-//Init global app object
-let app = {};
+// Init global app object
+const app = {};
 
-//When all scripts load, initialize the app
+// When all scripts load, initialize the app
 $(document).ready(() => {
-  //Initialize all modules
+  // Initialize all modules
   app.keys.init();
   app.pagescript.init();
 });
