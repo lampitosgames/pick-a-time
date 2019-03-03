@@ -5,8 +5,7 @@ app.pagescript = (() => {
   let $eAddPerson;
   let $eAddPersonIcon;
   let $eSubmitPersonIcon;
-  let
-    $eNewPersonInput;
+  let $eNewPersonInput;
   let eventID;
   let eventData = {};
 
@@ -33,29 +32,8 @@ app.pagescript = (() => {
     $eTitle[0].innerHTML = eventData.name;
     $eDescription[0].innerHTML = eventData.desc;
     $ePeopleList.prepend(Object.values(eventData.people).map(person => makeUserDiv(person)).join(''));
-    bindDeleteEvent($('.delete-person'));
-    $eAddPersonIcon.on('click', showNewPersonForm);
-    $eNewPersonInput.on('input', (e) => { $(e.target).attr('size', $(e.target).val().length < 4 ? 1 : Math.min($(e.target).val().length - 2, 25)); });
-    app.keys.keyUpBound($eNewPersonInput[0], 'enter', () => {
-      $eSubmitPersonIcon.trigger('click');
-    });
-    app.keys.keyUpBound($eNewPersonInput[0], 'esc', hideNewPersonForm);
-    $eSubmitPersonIcon.on('click', () => {
-      const name = $eNewPersonInput.val();
-      if (name.length > 0) {
-        if (!Object.prototype.hasOwnProperty.call(eventData.people, name)) {
-          app.ajax.post('/addPerson', { eventID, person: name }).then((newPerson) => {
-            eventData.people[newPerson.name] = newPerson;
-            $ePeopleList.prepend(makeUserDiv(newPerson));
-            bindDeleteEvent($(`i[data-name="${newPerson.name}"]`));
-            hideNewPersonForm();
-          });
-        } else {
-          handleError('Name already exists');
-        }
-      }
-    });
     $("#time-table-wrapper").append(app.tableBuilder.buildDateTable(new Date(eventData.startDate), new Date(eventData.endDate), 30));
+    bindEvents();
   };
 
   const makeUserDiv = (person) => {
@@ -79,8 +57,20 @@ app.pagescript = (() => {
     $eAddPerson.removeClass('adding-person');
   };
 
-  const bindDeleteEvent = ($element) => {
-    $element.on('click', (e) => {
+  const bindEvents = () => {
+    $eAddPersonIcon.on('click', showNewPersonForm);
+    $eNewPersonInput.on('input', (e) => {
+      $(e.target).attr('size', $(e.target).val().length < 4 ? 1 : Math.min($(e.target).val().length - 2, 25));
+    });
+    app.keys.keyUpBound($eNewPersonInput[0], 'enter', () => { $eSubmitPersonIcon.trigger('click'); });
+    app.keys.keyUpBound($eNewPersonInput[0], 'esc', hideNewPersonForm);
+
+    bindNewUserEvent();
+    bindDeleteEvent();
+  }
+
+  const bindDeleteEvent = () => {
+    $('.delete-person').on('click', (e) => {
       const userElement = $(e.target).parent();
       const username = $(e.target).data('name');
       app.ajax.post('/deletePerson', { eventID, person: username })
@@ -91,6 +81,24 @@ app.pagescript = (() => {
         .catch(err => handleError(err));
     });
   };
+
+  const bindNewUserEvent = () => {
+    $eSubmitPersonIcon.on('click', () => {
+      const name = $eNewPersonInput.val();
+      if (name.length > 0) {
+        if (!Object.prototype.hasOwnProperty.call(eventData.people, name)) {
+          app.ajax.post('/addPerson', { eventID, person: name }).then((newPerson) => {
+            eventData.people[newPerson.name] = newPerson;
+            $ePeopleList.prepend(makeUserDiv(newPerson));
+            bindDeleteEvent($(`i[data-name="${newPerson.name}"]`));
+            hideNewPersonForm();
+          });
+        } else {
+          handleError('Name already exists');
+        }
+      }
+    });
+  }
 
   const handleError = err => console.error(err);
 
