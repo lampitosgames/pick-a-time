@@ -54,22 +54,23 @@ app.tableBuilder = (() => {
    */
   const buildBody = (dateArr, timestep) => {
     let html = '<tbody class="picker-table-body">';
-    for (let hh = 0; hh < 25; hh++) {
+    for (let hh = 0; hh < 24; hh++) {
       for (let mm = 0; mm < 60; mm += timestep) {
         const hFormatted = hh % 12 === 0 ? 12 : hh % 12;
 
         const hString = hFormatted < 10 ? `0${hFormatted}` : `${hFormatted}`;
+        const hIDString = hh < 10 ? `0${hh}` : `${hh}`;
         const mString = mm < 10 ? `0${mm}` : `${mm}`;
 
-        html += `<tr><th>${hString}:${mString}</th>`;
+        html += `<tr><th>${hString}:${mString}${hh > 11 ? 'pm' : 'am'}</th>`;
 
         for (let i = 0; i < dateArr.length; i++) {
           const curDate = dateArr[i];
           const day = curDate.getUTCDate() < 10 ? `0${curDate.getUTCDate()}` : curDate.getUTCDate();
           const month = curDate.getUTCMonth() < 9 ? `0${curDate.getUTCMonth() + 1}` : curDate.getUTCMonth() + 1;
           const year = curDate.getFullYear();
-          const cellID = `${year}-${month}-${day}T${hString}:${mString}:00`;
-          html += `<td class="time-cell" data-timestamp="${cellID}"></td>`;
+          const cellID = `${year}-${month}-${day}T${hIDString}:${mString}:00`;
+          html += `<td class="time-cell" data-active=false data-timestamp="${cellID}"></td>`;
         }
         html += '</tr>';
       }

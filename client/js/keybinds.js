@@ -11,8 +11,7 @@ app.keys = (() => {
   const scrollCallbacks = [];
 
   /**
-   * Initialize the keys module and bind keydown and keyup events.
-   * Bind mouse events
+   * Initialize the keys module and bind keydown, keyup, and scroll events
    */
   function init() {
     // Add an event listener for keydown
@@ -52,6 +51,7 @@ app.keys = (() => {
         }
       }
     });
+
     // Add an event listener for mouse wheel events
     window.addEventListener('wheel', (e) => {
       // Cross-browser compatible scroll delta
@@ -76,6 +76,13 @@ app.keys = (() => {
    * Does nothing if an integer is passed
    * This only covers the most common keys.  More can be added easily by adding
    * their string to the switch statement
+   */
+  /**
+   * Returns the numerical keycode given a string. Does nothing if an integer is passed.
+   * This function only covers the most common keys. More can be added via the switch
+   * statement if need be
+   * @param  {String} key  Key name
+   * @return {Int}         Key code
    */
   function getKeyCode(key) {
     let keyCode = key;
@@ -146,9 +153,9 @@ app.keys = (() => {
 
   /**
    * Bind a function to one or more keys to be called when the key(s) is/are pressed.
-   * Accepts char code or a string representing the key(s)
-   * The first n arguments are keys to bind to
-   * The last argument is the callback function
+   * Any number of keystrings can be passed in. The last parameter is the callback function
+   * @param  {String} key       One or more keystrings. Pass as extra params
+   * @param  {Array}  callback  Callback function to be called when any of the keys are pressed
    */
   function keyDown(...args) {
     // Loop through every argument and add the callback to it
@@ -168,11 +175,12 @@ app.keys = (() => {
     }
   }
 
+
   /**
    * Bind a function to one or more keys to be called when the key(s) is/are released.
-   * Accepts char code or a string representing the key(s)
-   * The first n arguments are keys to bind to
-   * The last argument is the callback function
+   * Any number of keystrings can be passed in. The last parameter is the callback function
+   * @param  {String} key       One or more keystrings. Pass as extra params
+   * @param  {Array}  callback  Callback function to be called when any of the keys are released
    */
   function keyUp(...args) {
     // Loop through every argument and add the callback to it
@@ -194,6 +202,9 @@ app.keys = (() => {
 
   /**
    * Bind a function to a specific DOM element's key down event
+   * @param  {Object}   element  The DOM element to bind to
+   * @param  {String}   key      A keystring to be bound
+   * @param  {Function} callback Callback function to be called when the key is pressed
    */
   function keyDownBound(element, key, callback) {
     element.addEventListener('keydown', (e) => {
@@ -205,6 +216,9 @@ app.keys = (() => {
 
   /**
    * Bind a function to a specific DOM element's key up event
+   * @param  {Object}   element  The DOM element to bind to
+   * @param  {String}   key      A keystring to be bound
+   * @param  {Function} callback Callback function to be called when the key is released
    */
   function keyUpBound(element, key, callback) {
     element.addEventListener('keyup', (e) => {
@@ -217,6 +231,11 @@ app.keys = (() => {
   /**
    * Return whether a key is pressed
    * Accepts the char code or a string
+   */
+  /**
+   * Non event-based check to see if a key is currently pressed
+   * @param  {String} key A keystring
+   * @return {bool}       True if pressed, false if not pressed
    */
   function pressed(key) {
     // Get the key code
@@ -236,6 +255,11 @@ app.keys = (() => {
   /**
    * Binds a function to the mouse scrolling
    * an integer will be passed in to the function to determine direction
+   */
+  /**
+   * Bind a callback function to the mouse scroll event. An integer will be passed to determine
+   * scroll direction
+   * @param  {Function} callback Callback function
    */
   function scroll(callback) {
     scrollCallbacks.push(callback);

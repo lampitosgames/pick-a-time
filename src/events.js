@@ -71,12 +71,21 @@ const deletePerson = (req, res, body) => {
   res.end();
 };
 
+const setPersonSchedule = (req, res, body) => {
+  const { eventID, person, times } = body;
+  events[eventID].people[person].times = times;
+  res.writeHead(201, { 'Content-Type': 'text/json' });
+  res.write(JSON.stringify(events[eventID].people[person]));
+  res.end();
+};
+
 const getEvent = (req, res) => {
   const queryVals = qs.parse(req.url.split('?')[1]);
-  res.writeHead(200, { 'Content-Type': 'text/json' });
   if (Object.prototype.hasOwnProperty.call(queryVals, 'id') && events[queryVals.id]) {
+    res.writeHead(200, { 'Content-Type': 'text/json' });
     res.write(JSON.stringify(events[queryVals.id]));
   } else {
+    res.writeHead(400, { 'Content-Type': 'text/json' });
     res.write(JSON.stringify({ message: 'no event with specified ID' }));
   }
   res.end();
@@ -87,4 +96,5 @@ module.exports = {
   getEvent,
   addPerson,
   deletePerson,
+  setPersonSchedule,
 };

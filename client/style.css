@@ -193,6 +193,12 @@ label {
   cursor: pointer;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
+  transition: border-radius 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.editing-person-schedule {
+  border-radius: 0.3em;
+  box-shadow: inset 0 0 0px 4px rgba(0, 0, 0, 0.3);
 }
 
 .delete-person {
@@ -251,7 +257,7 @@ label {
 
 
 /* Decrease font size for IPhone 5/SE and other small screens */
-@media all and (max-width: 320px) {
+@media all and (max-width: 400px) {
   body {
     font-size: 0.85em;
   }

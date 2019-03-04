@@ -27,8 +27,6 @@ app.pagescript = (() => {
     $eEndDate = $('#event-end-date');
     $eSubmit = $('#event-create');
 
-    app.keys.keyUp('K', 'H', () => console.log('test'));
-
     // When the "submit" button is clicked, send a post request
     $eSubmit.click(() => {
       // TODO: validate input
