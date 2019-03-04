@@ -70,7 +70,7 @@ const onRequest = (req, res) => {
           return;
         }
         if (parsedURL.pathname === '/newEvent') {
-          if (body.titleValue === '' || body.descValue === '' || body.startDate === '' || body.endDate == '') {
+          if (body.titleValue === '' || body.descValue === '' || body.startDate === '' || body.endDate === '') {
             sendError(req, res, 400, 'missingParams', 'Title, description, start, end are all required to create an event.');
             return;
           }
