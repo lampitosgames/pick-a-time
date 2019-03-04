@@ -144,6 +144,17 @@ label {
   margin-right: auto;
 }
 
+.tutorial {
+  text-align: left;
+  flex-shrink: 1;
+  font-weight: 400;
+  font-size: 0.7em;
+  color: #485958;
+  margin-bottom: 1em;
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+}
+
 .material-icons.md-small {
   font-size: 1em;
 }
@@ -176,7 +187,6 @@ label {
   font-size: 1.2em;
   width: 100%;
   overflow: hidden;
-  margin-bottom: 1em;
 }
 
 .person-name {
