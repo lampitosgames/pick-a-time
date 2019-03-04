@@ -9,32 +9,7 @@ app.pagescript = (() => {
   let eventID;
   let eventData = {};
 
-  const init = () => {
-    $eTitle = $('#event-page-title');
-    $eDescription = $('#event-page-description');
-    $ePeopleList = $('.people-list-wrapper');
-    $eAddPerson = $('#add-person');
-    $eAddPersonIcon = $('#add-icon');
-    $eSubmitPersonIcon = $('#submit-person-icon');
-    $eNewPersonInput = $('#new-person-input');
-
-    // Get event data via ajax
-    eventID = window.location.href.split('?')[1].split('=')[1];
-    app.ajax.get('/getEvent', { id: eventID }).then((response) => {
-      setupPage(response);
-    }).catch((err) => {
-      handleError(err);
-    });
-  };
-
-  const setupPage = (response) => {
-    eventData = response;
-    $eTitle[0].innerHTML = eventData.name;
-    $eDescription[0].innerHTML = eventData.desc;
-    $ePeopleList.prepend(Object.values(eventData.people).map(person => makeUserDiv(person)).join(''));
-    $("#time-table-wrapper").append(app.tableBuilder.buildDateTable(new Date(eventData.startDate), new Date(eventData.endDate), 30));
-    bindEvents();
-  };
+  const handleError = err => console.error(err);
 
   const makeUserDiv = (person) => {
     const userName = person.name;
@@ -56,18 +31,6 @@ app.pagescript = (() => {
     $eNewPersonInput.addClass('new-person-input-hidden').val('');
     $eAddPerson.removeClass('adding-person');
   };
-
-  const bindEvents = () => {
-    $eAddPersonIcon.on('click', showNewPersonForm);
-    $eNewPersonInput.on('input', (e) => {
-      $(e.target).attr('size', $(e.target).val().length < 4 ? 1 : Math.min($(e.target).val().length - 2, 25));
-    });
-    app.keys.keyUpBound($eNewPersonInput[0], 'enter', () => { $eSubmitPersonIcon.trigger('click'); });
-    app.keys.keyUpBound($eNewPersonInput[0], 'esc', hideNewPersonForm);
-
-    bindNewUserEvent();
-    bindDeleteEvent();
-  }
 
   const bindDeleteEvent = () => {
     $('.delete-person').on('click', (e) => {
@@ -98,9 +61,48 @@ app.pagescript = (() => {
         }
       }
     });
-  }
+  };
 
-  const handleError = err => console.error(err);
+  const bindEvents = () => {
+    $eAddPersonIcon.on('click', showNewPersonForm);
+    $eNewPersonInput.on('input', (e) => {
+      $(e.target).attr('size', $(e.target).val().length < 4 ? 1 : Math.min($(e.target).val().length - 2, 25));
+    });
+    app.keys.keyUpBound($eNewPersonInput[0], 'enter', () => { $eSubmitPersonIcon.trigger('click'); });
+    app.keys.keyUpBound($eNewPersonInput[0], 'esc', hideNewPersonForm);
+
+    bindNewUserEvent();
+    bindDeleteEvent();
+  };
+
+  const setupPage = (response) => {
+    eventData = response;
+    $eTitle[0].innerHTML = eventData.name;
+    $eDescription[0].innerHTML = eventData.desc;
+    $ePeopleList.prepend(Object.values(eventData.people).map(person => makeUserDiv(person)).join(''));
+    $('#time-table-wrapper').append(app.tableBuilder.buildDateTable(new Date(eventData.startDate), new Date(eventData.endDate), 30));
+    bindEvents();
+  };
+
+  const init = () => {
+    $eTitle = $('#event-page-title');
+    $eDescription = $('#event-page-description');
+    $ePeopleList = $('.people-list-wrapper');
+    $eAddPerson = $('#add-person');
+    $eAddPersonIcon = $('#add-icon');
+    $eSubmitPersonIcon = $('#submit-person-icon');
+    $eNewPersonInput = $('#new-person-input');
+
+    // This next line breaks ESLint, but the way eslint wants me to do it is silly
+    const [, splitURL] = window.location.href.split('?');
+    [, eventID] = splitURL.split('=');
+    // eventID = window.location.href.split('?')[1].split('=')[1];
+    app.ajax.get('/getEvent', { id: eventID }).then((response) => {
+      setupPage(response);
+    }).catch((err) => {
+      handleError(err);
+    });
+  };
 
   return {
     init,

@@ -1,7 +1,12 @@
 app.pagescript = (() => {
   // Init individual page elements
-  let $eTitle; let $eDescription; let $eStartLabel; let $eStartDate; let $eEndLabel; let $eEndDate; let
-    $eSubmit;
+  let $eTitle;
+  let $eDescription;
+  let $eStartLabel;
+  let $eStartDate;
+  let $eEndLabel;
+  let $eEndDate;
+  let $eSubmit;
 
   // Store the user-entered values to send during a POST request
   let titleValue = '';
@@ -22,15 +27,19 @@ app.pagescript = (() => {
     $eEndDate = $('#event-end-date');
     $eSubmit = $('#event-create');
 
+    app.keys.keyUp('K', 'H', () => console.log('test'));
+
     // When the "submit" button is clicked, send a post request
-    $eSubmit.click((e) => {
+    $eSubmit.click(() => {
       // TODO: validate input
       if (titleValue !== '' && descValue !== '' && startDate !== '' && endDate !== '') {
         app.ajax.post('/newEvent', {
-          name: titleValue, desc: descValue, startDate, endDate,
+          name: titleValue,
+          desc: descValue,
+          startDate,
+          endDate,
         })
           .then((res) => {
-            console.dir(res);
             window.location.replace(`/event?id=${res.id}`);
           })
           .catch((err) => { console.dir(err); });
