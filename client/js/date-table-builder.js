@@ -42,7 +42,7 @@ app.tableBuilder = (() => {
       const dayName = dayNames[curDate.getUTCDay()];
       const day = curDate.getUTCDate() < 10 ? `0${curDate.getUTCDate()}` : curDate.getUTCDate();
       const month = curDate.getUTCMonth() < 9 ? `0${curDate.getUTCMonth() + 1}` : curDate.getUTCMonth() + 1;
-      const dateString = `${dayName} ${day}/${month}`;
+      const dateString = `${dayName} ${month}/${day}`;
       html += `<th>${dateString}</th>`;
     }
     html += '</tr></thead>';
