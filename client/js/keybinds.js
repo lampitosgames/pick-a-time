@@ -72,12 +72,6 @@ app.keys = (() => {
   }
 
   /**
-   * Returns the numerical keycode given a string
-   * Does nothing if an integer is passed
-   * This only covers the most common keys.  More can be added easily by adding
-   * their string to the switch statement
-   */
-  /**
    * Returns the numerical keycode given a string. Does nothing if an integer is passed.
    * This function only covers the most common keys. More can be added via the switch
    * statement if need be
@@ -229,10 +223,6 @@ app.keys = (() => {
   }
 
   /**
-   * Return whether a key is pressed
-   * Accepts the char code or a string
-   */
-  /**
    * Non event-based check to see if a key is currently pressed
    * @param  {String} key A keystring
    * @return {bool}       True if pressed, false if not pressed
@@ -252,10 +242,6 @@ app.keys = (() => {
     return keys[keyCode].pressed;
   }
 
-  /**
-   * Binds a function to the mouse scrolling
-   * an integer will be passed in to the function to determine direction
-   */
   /**
    * Bind a callback function to the mouse scroll event. An integer will be passed to determine
    * scroll direction
