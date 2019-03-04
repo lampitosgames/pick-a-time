@@ -18,20 +18,20 @@ const userColors = [
   '#1880e1',
 ];
 
-const events = {
-  debug: {
-    eventID: 'debug',
-    name: 'Debug Event',
-    desc: 'Debug description. This is just the test data',
-    startDate: '2019-12-28',
-    endDate: '2020-02-03',
-    people: {},
-    unusedColors: userColors.map(c => c),
-  },
-};
+// Server state to store individual events
+// TODO: Replace with Mongo integration
+const events = {};
 
+/**
+ * POST request helper for adding an event
+ * @param {Request}  req  HTTP Request object
+ * @param {Response} res  HTTP Response object
+ * @param {Object}   body Params for event construction
+ */
 const addEvent = (req, res, body) => {
+  // Generate a unique ID for the event
   const eventID = uuidv1();
+  // Construct the event from the request body. Store in server state
   events[eventID] = {
     eventID,
     name: body.name,
@@ -41,6 +41,7 @@ const addEvent = (req, res, body) => {
     people: {},
     unusedColors: userColors.map(c => c),
   };
+  // Return success with the event ID in the body
   res.writeHead(201, { 'Content-Type': 'text/json' });
   res.write(JSON.stringify({
     message: 'Created event successfully',
@@ -49,44 +50,82 @@ const addEvent = (req, res, body) => {
   res.end();
 };
 
+/**
+ * POST request handler for adding a person to an event
+ * @param {Request}  req  HTTP Request object
+ * @param {Response} res  HTTP Response object
+ * @param {Object}   body Params for event construction
+ */
 const addPerson = (req, res, body) => {
-  const { eventID } = body;
+  // Pull out body params
+  const { eventID, person } = body;
+  // Construct a new person object from the body
   const newPerson = {
-    name: body.person,
+    name: person,
     // Random color - https://css-tricks.com/snippets/javascript/random-hex-color/
     color: events[eventID].unusedColors.length > 0 ? events[eventID].unusedColors.pop() : `#${Math.floor(Math.random() * 16777215).toString(16)}`,
     times: [],
   };
+  // Add the person to the proper event
   events[eventID].people[newPerson.name] = newPerson;
+  // Return the person's object so it can easily be added to the client
   res.writeHead(201, { 'Content-Type': 'text/json' });
   res.write(JSON.stringify(newPerson));
   res.end();
 };
 
+/**
+ * POST request handler for deleting a person from an event
+ * @param {Request}  req  HTTP Request object
+ * @param {Response} res  HTTP Response object
+ * @param {Object}   body Params for event construction
+ */
 const deletePerson = (req, res, body) => {
-  const { eventID } = body;
-  events[eventID].unusedColors.push(events[eventID].people[body.person].color);
-  delete events[eventID].people[body.person];
+  // Pull out body params
+  const { eventID, person } = body;
+  // Replace the color the person had claimed
+  events[eventID].unusedColors.push(events[eventID].people[person].color);
+  // Delete the person from the event
+  delete events[eventID].people[person];
+  // Return success with no body
   res.writeHead(204, { 'Content-Type': 'text/json' });
   res.end();
 };
 
+/**
+ * POST request handler for updating a person's schedule
+ * @param {Request}  req  HTTP Request object
+ * @param {Response} res  HTTP Response object
+ * @param {Object}   body Params for event construction
+ */
 const setPersonSchedule = (req, res, body) => {
+  // Pull out body params
   const { eventID, person, times } = body;
+  // Store the new times array
   events[eventID].people[person].times = times;
+  // Respond with the updated person object
   res.writeHead(201, { 'Content-Type': 'text/json' });
   res.write(JSON.stringify(events[eventID].people[person]));
   res.end();
 };
 
+/**
+ * GET request handler that responds with the specified event data
+ * @param {Request}  req  HTTP Request object
+ * @param {Response} res  HTTP Response object
+ */
 const getEvent = (req, res) => {
+  // Parse the query parameters (should only be the event ID)
   const queryVals = qs.parse(req.url.split('?')[1]);
+  // Ensure the request has the event ID
   if (Object.prototype.hasOwnProperty.call(queryVals, 'id') && events[queryVals.id]) {
+    // Respond with event data
     res.writeHead(200, { 'Content-Type': 'text/json' });
     res.write(JSON.stringify(events[queryVals.id]));
   } else {
+    // Else, respond with a 400 error
     res.writeHead(400, { 'Content-Type': 'text/json' });
-    res.write(JSON.stringify({ message: 'no event with specified ID' }));
+    res.write(JSON.stringify({ id: 'missingParams', message: 'no event with specified ID' }));
   }
   res.end();
 };

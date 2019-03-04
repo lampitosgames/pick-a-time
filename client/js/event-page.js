@@ -1,4 +1,8 @@
+/**
+ * Main page script for the event page
+ */
 app.pagescript = (() => {
+  // Stored query selectors
   let $eTitle;
   let $eDescription;
   let $ePeopleList;
@@ -7,15 +11,19 @@ app.pagescript = (() => {
   let $eSubmitPersonIcon;
   let $eNewPersonInput;
 
-  let preventNavigation = false;
-
+  // Event data from the server
   let eventID;
   let eventData = {};
 
+  // Track mouse/touch input for selecting times
   let touchDown = false;
   let mouseDown = false;
 
+  // Current user being edited. If empty string, display matching times
   let editingUser = '';
+  // Should the user be prompted before they navigate away? Used if they have unsaved work or if a
+  // promise is currently resolving
+  let preventNavigation = false;
 
   const handleError = err => console.error(err);
 

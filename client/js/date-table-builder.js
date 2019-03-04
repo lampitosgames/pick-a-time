@@ -1,3 +1,6 @@
+/**
+ * Helper module for building the actual HTML of the time table
+ */
 app.tableBuilder = (() => {
   // Just an enum of day names for mapping the return value of Date.getUTCDay()
   const dayNames = {
@@ -33,7 +36,7 @@ app.tableBuilder = (() => {
    */
   const buildHeader = (dateArr) => {
     let html = '<thead class="picker-table-header"><tr><th></th>';
-
+    // Loop over all dates and construct their individual table header
     for (let i = 0; i < dateArr.length; i++) {
       const curDate = dateArr[i];
       const dayName = dayNames[curDate.getUTCDay()];
@@ -54,21 +57,26 @@ app.tableBuilder = (() => {
    */
   const buildBody = (dateArr, timestep) => {
     let html = '<tbody class="picker-table-body">';
+    // For every hour
     for (let hh = 0; hh < 24; hh++) {
+      // For every minute, incremented by the timestep
       for (let mm = 0; mm < 60; mm += timestep) {
+        // Format the hour variable. One as 24hour for the <td> id, the other as 12 hour for
+        // displaying
         const hFormatted = hh % 12 === 0 ? 12 : hh % 12;
-
         const hString = hFormatted < 10 ? `0${hFormatted}` : `${hFormatted}`;
         const hIDString = hh < 10 ? `0${hh}` : `${hh}`;
+        // Format the minute variable
         const mString = mm < 10 ? `0${mm}` : `${mm}`;
-
+        // Add a label to the table for this time slot
         html += `<tr><th>${hString}:${mString}${hh > 11 ? 'pm' : 'am'}</th>`;
-
+        // For every date, add a cell
         for (let i = 0; i < dateArr.length; i++) {
           const curDate = dateArr[i];
           const day = curDate.getUTCDate() < 10 ? `0${curDate.getUTCDate()}` : curDate.getUTCDate();
           const month = curDate.getUTCMonth() < 9 ? `0${curDate.getUTCMonth() + 1}` : curDate.getUTCMonth() + 1;
           const year = curDate.getFullYear();
+          // Create a unique ID for the cell
           const cellID = `${year}-${month}-${day}T${hIDString}:${mString}:00`;
           html += `<td class="time-cell" data-active=false data-timestamp="${cellID}"></td>`;
         }
