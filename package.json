@@ -18,6 +18,7 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
+    "mongoose": "^5.4.17",
     "qs": "^6.6.0",
     "uuid": "^3.3.2"
   }

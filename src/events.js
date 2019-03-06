@@ -1,5 +1,6 @@
 const qs = require('qs');
 const uuidv1 = require('uuid/v1');
+const { eventModel } = require('./models/event-model');
 
 // Define a set of user colors. Clone into every event.
 // If we run out, they'll be randomly generated
@@ -31,23 +32,30 @@ const events = {};
 const addEvent = (req, res, body) => {
   // Generate a unique ID for the event
   const eventID = uuidv1();
-  // Construct the event from the request body. Store in server state
-  events[eventID] = {
+  let newEvent = new eventModel({
     eventID,
     name: body.name,
     desc: body.desc,
     startDate: body.startDate,
     endDate: body.endDate,
-    people: {},
     unusedColors: userColors.map(c => c),
-  };
-  // Return success with the event ID in the body
-  res.writeHead(201, { 'Content-Type': 'text/json' });
-  res.write(JSON.stringify({
-    message: 'Created event successfully',
-    id: eventID,
-  }));
-  res.end();
+    people: {},
+  });
+  newEvent.save((err) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/json' });
+      res.end();
+    } else {
+      console.dir("created");
+      // Return success with the event ID in the body
+      res.writeHead(201, { 'Content-Type': 'text/json' });
+      res.write(JSON.stringify({
+        message: 'Created event successfully',
+        id: eventID,
+      }));
+      res.end();
+    }
+  });
 };
 
 /**
@@ -118,16 +126,21 @@ const getEvent = (req, res) => {
   // Parse the query parameters (should only be the event ID)
   const queryVals = qs.parse(req.url.split('?')[1]);
   // Ensure the request has the event ID
-  if (Object.prototype.hasOwnProperty.call(queryVals, 'id') && events[queryVals.id]) {
+  if (Object.prototype.hasOwnProperty.call(queryVals, 'id')) {
     // Respond with event data
-    res.writeHead(200, { 'Content-Type': 'text/json' });
-    res.write(JSON.stringify(events[queryVals.id]));
-  } else {
-    // Else, respond with a 400 error
-    res.writeHead(400, { 'Content-Type': 'text/json' });
-    res.write(JSON.stringify({ id: 'missingParams', message: 'no event with specified ID' }));
+    eventModel.find({ eventID: queryVals.id }, 'name desc startDate endDate unusedColors people', (err, thisEvent) => {
+      if (err) {
+        // Else, respond with a 400 error
+        res.writeHead(400, { 'Content-Type': 'text/json' });
+        res.write(JSON.stringify({ id: 'missingParams', message: 'no event with specified ID' }));
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/json' });
+        res.write(JSON.stringify(thisEvent._doc));
+        console.dir(thisEvent);
+      }
+      res.end();
+    });
   }
-  res.end();
 };
 
 module.exports = {
